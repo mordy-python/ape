@@ -1,0 +1,7 @@
+start:
+    echo "hello, world"
+    goto middle
+    echo "Back in start"
+    stop
+middle:
+    echo "In middle"
