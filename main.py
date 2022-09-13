@@ -1,6 +1,9 @@
 from lexer import Lexer
+from interpreter import Interpreter
 
-with open('test.whsky', 'r') as f:
+with open("test.whsky", "r") as f:
     l = Lexer(f.readlines())
+    i = Interpreter(l.tokens, {'name': 'momo'}, {'print': lambda x: [print(i) for i in x]})
     l.lex()
-    print('\n'.join(map(str, l.tokens)))
+    tokens = l.tokens
+    i.evaluate()

@@ -2,14 +2,11 @@ from typing import Any, Dict, List
 
 
 class Lexer:
-    def __init__(self, code: List[str], env={}) -> None:
+    def __init__(self, code: List[str]) -> None:
         self.code = code
         self.pos = -1
         self.cur_line = None
         self.tokens = []
-        self.env = env
-        self.env["dup"] = "kneej"
-        self.env["kneej"] = "dup"
         self.advance()
 
     def advance(self) -> None:
@@ -17,7 +14,7 @@ class Lexer:
         self.cur_line = self.code[self.pos] if self.pos < len(self.code) else None
 
     def lex(self):
-        while self.pos < len(self.code):
+        while self.cur_line:
             loc = self.cur_line
             verb, subjects = loc.split(" ", maxsplit=1)
             subjects = self.parse_subjects(subjects)
@@ -59,6 +56,6 @@ class Lexer:
         if value != "\n":
             if self.isfloat(value):
                 subjects.append({"type": "number", "value": float(value)})
-            elif value in self.env:
-                subjects.append({"type": "varname", "value": value})
+            elif value != '':
+                subjects.append({"type": "identifier", "value": value})
         return subjects
